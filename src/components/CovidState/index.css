@@ -1,0 +1,135 @@
+.state-bg {
+  background-color: #161625;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+}
+.state-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 80%;
+}
+.state-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+.date-container {
+  background-color: #0284c729;
+  border-radius: 32px;
+  align-items: flex-start;
+  text-align: left;
+}
+.state-name {
+  color: #0ea5e9;
+  font-size: 28px;
+  margin: 5px 20px;
+  padding: 5px;
+}
+.tested-heading {
+  color: #94a3b8;
+  font-size: 16px;
+  margin: 5px;
+}
+.tested-case {
+  color: #94a3b8;
+  font-size: 24px;
+  margin: 5px;
+}
+.updated-date {
+  color: #cbd5e1;
+  font-size: 18px;
+  margin: 5px;
+  align-self: flex-start;
+}
+.district-container {
+  width: 90%;
+  margin: 20px;
+}
+.top-dist-hdg {
+  font-size: 32px;
+}
+.district-list {
+  display: flex;
+  justify-content: space-between;
+  padding: 5px;
+  flex-wrap: wrap;
+  width: 100%;
+}
+.district-list-item {
+  width: 20%;
+  color: #94a3b8;
+  display: flex;
+  align-items: center;
+  margin: 5px 10px;
+}
+.district-name {
+  font-size: 16px;
+  margin-left: 5px;
+  text-align: left;
+}
+.district-case {
+  font-size: 20px;
+  text-align: left;
+}
+.graph-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow-x: auto;
+  background-color: #161625;
+  width: 100%;
+  margin: 20px;
+}
+
+@media screen and (max-width: 767px) {
+  .state-bg {
+    width: 100%;
+    padding: 5px;
+  }
+  .state-container {
+    width: 95%;
+  }
+  .state-name {
+    font-size: 16px;
+  }
+  .tested-heading {
+    font-size: 12px;
+  }
+  .tested-case {
+    font-size: 16px;
+  }
+  .updated-date {
+    flex-direction: 12px;
+  }
+  .top-dist-hdg {
+    font-size: 24px;
+    margin-top: 5px;
+    margin-bottom: 5px;
+  }
+  .district-container {
+    height: 100%;
+    margin: 10px 0;
+  }
+  .district-list {
+    width: 100%;
+    flex-direction: row;
+    justify-content: space-between;
+  }
+  .district-list-item {
+    width: 40%;
+  }
+  .district-case {
+    font-size: 16px;
+  }
+  .district-name {
+    font-size: 12px;
+  }
+  .graph-container {
+    align-items: flex-start;
+    margin: 0;
+  }
+}

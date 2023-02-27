@@ -1,0 +1,84 @@
+.state-card-bg {
+  background-color: #161625;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  margin-top: 20px;
+}
+
+.select-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  margin-top: 20px;
+  padding: 5px;
+  width: 100%;
+}
+.select-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border-radius: 12px;
+  width: 200px;
+}
+.state-card-item {
+  list-style: none;
+}
+.category-card {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  border-radius: 12px;
+  width: 264px;
+  height: 232px;
+  margin: 5px;
+}
+.confirmed-clr {
+  color: #ff073a;
+}
+.active-clr {
+  color: #007bff;
+}
+.recovered-clr {
+  color: #28a745;
+}
+.deceased-clr {
+  color: #6c757d;
+}
+.state-status {
+  font-size: 16px;
+}
+.state-count {
+  font-size: 24px;
+}
+
+.confirmed-card,
+.confirmed-card:hover {
+  background-color: #331427;
+}
+.active-card,
+.active-card:hover {
+  background-color: #132240;
+}
+.recovered-card,
+.recovered-card:hover {
+  background-color: #182829;
+}
+.deceased-card,
+.deceased-card:hover {
+  background-color: #1c1c2b;
+}
+@media screen and (max-width: 767px) {
+  .category-card {
+    width: 140px;
+    height: 140px;
+  }
+  .state-status {
+    font-size: 12px;
+  }
+  .state-count {
+    font-size: 16px;
+  }
+}
