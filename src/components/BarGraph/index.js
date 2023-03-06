@@ -1,5 +1,5 @@
 import {Component} from 'react'
-import {format} from 'date-fns'
+import Loader from 'react-loader-spinner'
 
 import './index.css'
 
@@ -7,8 +7,15 @@ import {BarChart, Bar, XAxis, Legend, Tooltip} from 'recharts'
 
 import LineGraph from '../LineGraph'
 
+const viewStatusConstant = {
+  initial: 'INITIAL',
+  loading: 'LOADING',
+  success: 'SUCCESS',
+  failure: 'FAILURE',
+}
+
 class BarGraph extends Component {
-  state = {stateDateWiseData: []}
+  state = {stateDateWiseData: [], viewStatus: viewStatusConstant.initial}
 
   componentDidMount() {
     this.getStatesData()
@@ -33,30 +40,55 @@ class BarGraph extends Component {
 
       const stateDateWiseData = dateList.map(e => {
         const eachDateCase = dateData[e].total
-        const date = e
+        let formatDate = e
+        const d = new Date(formatDate).getDate()
+        // const y = new Date(formatDate).getFullYear()
+        let m = new Date(formatDate).getMonth()
+
+        const monthNames = [
+          'january',
+          'february',
+          'march',
+          'april',
+          'may',
+          'june',
+          'july',
+          'august',
+          'september',
+          'october',
+          'november',
+          'december',
+        ]
+
+        m = monthNames[m].slice(0, 3).toUpperCase()
+
+        formatDate = [d, m].join(' ')
         const Confirmed = eachDateCase.confirmed ? eachDateCase.confirmed : 0
 
         const Recovered = eachDateCase.recovered ? eachDateCase.recovered : 0
 
         const Deceased = eachDateCase.deceased ? eachDateCase.deceased : 0
 
+        const Tested = eachDateCase.tested ? eachDateCase.tested : 0
+
         const Active = Confirmed - Recovered - Deceased
         return {
-          date,
+          formatDate,
           Confirmed,
           Deceased,
           Recovered,
           Active,
+          Tested,
         }
       })
-      this.setState({stateDateWiseData})
+      this.setState({stateDateWiseData, viewStatus: viewStatusConstant.success})
     }
   }
 
   renderCharts = () => {
     const {stateDateWiseData} = this.state
     return (
-      <>
+      <div testid="lineChartsContainer">
         <div
           className="line-chart-container"
           style={{backgroundColor: '#331427'}}
@@ -97,26 +129,34 @@ class BarGraph extends Component {
             category="Deceased"
           />
         </div>
-      </>
+        <div
+          className="line-chart-container"
+          style={{backgroundColor: '#230F41'}}
+        >
+          <LineGraph
+            stateDateData={stateDateWiseData}
+            lineColor="#9673B9"
+            category="Tested"
+          />
+        </div>
+      </div>
     )
   }
 
-  render() {
+  renderSuccessView = () => {
     const {stateDateWiseData} = this.state
     const {activeId, activeColor} = this.props
-    const dataForSelectedCase = stateDateWiseData.map(e => {
-      const d = e.date
-      let formatDate = format(new Date(d), 'd MMM')
-      formatDate = formatDate.toUpperCase()
-      return {date: formatDate, case_data: e[activeId]}
-    })
+    const dataForSelectedCase = stateDateWiseData.map(e => ({
+      date: e.formatDate,
+      case_data: e[activeId],
+    }))
 
     const dataForGraph = dataForSelectedCase.slice(
       Math.max(dataForSelectedCase.length - 10, 0),
     )
 
     return (
-      <div>
+      <>
         <BarChart data={dataForGraph} barSize={40} width={800} height={300}>
           <XAxis
             dataKey="date"
@@ -140,9 +180,29 @@ class BarGraph extends Component {
             width={60}
           />
         </BarChart>
+        <h1 className="spread-hdg">Spread Trends</h1>
         {this.renderCharts()}
-      </div>
+      </>
     )
+  }
+
+  renderLoadingView = () => (
+    <div testid="timelinesDataLoader">
+      <Loader type="TailSpin" color="#0b69ff" height="50" width="50" />
+    </div>
+  )
+
+  render() {
+    const {viewStatus} = this.state
+
+    switch (viewStatus) {
+      case viewStatusConstant.success:
+        return this.renderSuccessView()
+      case viewStatusConstant.loading:
+        return this.renderLoadingView()
+      default:
+        return null
+    }
   }
 }
 export default BarGraph

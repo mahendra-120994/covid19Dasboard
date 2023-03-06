@@ -51,7 +51,7 @@ class About extends Component {
   }
 
   renderLoadingView = () => (
-    <div className="products-loader-container">
+    <div testid="aboutRouteLoader">
       <Loader type="TailSpin" color="#0b69ff" height="50" width="50" />
     </div>
   )
@@ -66,8 +66,8 @@ class About extends Component {
         <h1 className="about-msg">
           COVID-19 vaccines be ready for distribution
         </h1>
-        <ul className="faqs-list">
-          {/* testid="faqsUnorderedList" */}
+        {/* testid="faqsUnorderedList" */}
+        <ul className="faqs-list" testid="faqsUnorderedList">
           {foqsList.map(eachFaq => (
             <li key={eachFaq.qno} className="faq-list-item">
               <p className="faq-que">{eachFaq.question}</p>

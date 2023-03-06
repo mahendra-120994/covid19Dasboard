@@ -174,6 +174,7 @@ class Home extends Component {
     totalDeceased: 0,
     searchInput: '',
     order: 'ASC',
+    showMenu: false,
   }
 
   componentDidMount() {
@@ -235,6 +236,10 @@ class Home extends Component {
     }
   }
 
+  showNavMenu = () => {
+    this.setState(prev => ({showMenu: !prev.showMenu}))
+  }
+
   searchState = event => {
     this.setState({searchInput: event.target.value})
   }
@@ -244,8 +249,7 @@ class Home extends Component {
   }
 
   renderLoadingView = () => (
-    <div className="products-loader-container">
-      {/* testid="homeRouteLoader" */}
+    <div testid="homeRouteLoader">
       <Loader type="TailSpin" color="#0b69ff" height="50" width="50" />
     </div>
   )
@@ -261,17 +265,29 @@ class Home extends Component {
       order,
     } = this.state
 
-    const filterState = covid19DataList.filter(e =>
-      e.stateName.toLowerCase().includes(searchInput.toLowerCase()),
-    )
-
-    let filteredData
-
     if (order === 'ASC') {
-      filteredData = covid19DataList
+      covid19DataList.sort((a, b) => {
+        if (a.stateName.toLowerCase() < b.stateName.toLowerCase()) {
+          return -1
+        }
+        if (a.stateName.toLowerCase() > b.stateName.toLowerCase()) {
+          return 1
+        }
+        return 0
+      })
     } else {
-      filteredData = covid19DataList.reverse()
+      covid19DataList.sort((a, b) => {
+        if (a.stateName.toLowerCase() > b.stateName.toLowerCase()) {
+          return -1
+        }
+        if (a.stateName.toLowerCase() < b.stateName.toLowerCase()) {
+          return 1
+        }
+        return 0
+      })
     }
+
+    // console.log(covid19DataList)
 
     return (
       <>
@@ -286,27 +302,26 @@ class Home extends Component {
           />
         </div>
         {searchInput && (
-          <ul className="search-list">
-            {/* testid="searchResultsUnorderedList" */}
-            {filterState.map(e => (
-              <li key={e.stateCode} className="search-list-item">
-                <p className="search-option">{e.stateName}</p>
-                <Link to={`/state/${e.stateCode}`} className="link-item">
-                  <button type="button" className="icon-btn">
-                    <div className="search-click">
-                      <p>{e.stateCode}</p>
-                      <BiChevronRightSquare className="arrow-right" />
-                    </div>
-                  </button>
-                </Link>
-              </li>
+          <ul className="search-list" testid="searchResultsUnorderedList">
+            {covid19DataList.map(e => (
+              <Link to={`/state/${e.stateCode}`} className="link-item">
+                <li key={e.stateCode} className="search-list-item">
+                  <p className="search-option">{e.stateName}</p>
+                  <div className="search-click">
+                    <p>{e.stateCode}</p>
+                    <BiChevronRightSquare />
+                  </div>
+                </li>
+              </Link>
             ))}
           </ul>
         )}
 
         <div className="total-data-container">
-          <div className="total-data confirmed">
-            {/*  testid="countryWideConfirmedCases" */}
+          <div
+            className="total-data confirmed"
+            testid="countryWideConfirmedCases"
+          >
             <p className="data-type">Confirmed</p>
             <img
               src="https://res.cloudinary.com/dgulnqxe6/image/upload/v1677424366/miniproject/Covid19%20Dashboard/check-mark_sowise.png"
@@ -314,8 +329,7 @@ class Home extends Component {
             />
             <p className="total-data">{totalConfirmed}</p>
           </div>
-          <div className="total-data active">
-            {/* testid="countryWideActiveCases" */}
+          <div className="total-data active" testid="countryWideActiveCases">
             <p className="data-type">Active</p>
             <img
               src="https://res.cloudinary.com/dgulnqxe6/image/upload/v1677424366/miniproject/Covid19%20Dashboard/protection_x7c08c.png"
@@ -323,8 +337,10 @@ class Home extends Component {
             />
             <p className="total-data">{totalActive}</p>
           </div>
-          <div className="total-data recovered">
-            {/*  testid="countryWideRecoveredCases" */}
+          <div
+            className="total-data recovered"
+            testid="countryWideRecoveredCases"
+          >
             <p className="data-type">Recovered</p>
             <img
               src="https://res.cloudinary.com/dgulnqxe6/image/upload/v1677424366/miniproject/Covid19%20Dashboard/recovered_a62w5v.png"
@@ -332,8 +348,10 @@ class Home extends Component {
             />
             <p className="total-data">{totalRecovered}</p>
           </div>
-          <div className="total-data deceased">
-            {/*  testid="countryWideDeceasedCases" */}
+          <div
+            className="total-data deceased"
+            testid="countryWideDeceasedCases"
+          >
             <p className="data-type">Deceased</p>
             <img
               src="https://res.cloudinary.com/dgulnqxe6/image/upload/v1677424366/miniproject/Covid19%20Dashboard/breathing_enzyun.png"
@@ -342,54 +360,57 @@ class Home extends Component {
             <p className="total-data">{totalDeceased}</p>
           </div>
         </div>
-        <div className="home-data-container">
-          {/* testid="stateWiseCovidDataTable" */}
-          <ul className="covid-list">
-            <li className="list-item header-list" key="table">
-              <div className="filter-box">
-                <p style={{marginRight: 10}}>States/UT</p>
-                <button
-                  type="button"
-                  onClick={() => this.sortList('ASC')}
-                  className="icon-btn"
-                >
-                  <FcGenericSortingAsc />
-                </button>
-                <button
-                  type="button"
-                  onClick={() => this.sortList('DESC')}
-                  className="icon-btn"
-                >
-                  <FcGenericSortingDesc />
-                </button>
-              </div>
+        <div className="home-list-container" testid="stateWiseCovidDataTable">
+          <div className="list-item header-list">
+            <div className="filter-box">
+              <p style={{marginRight: 10}}>States/UT</p>
+              <button
+                type="button"
+                onClick={() => this.sortList('ASC')}
+                className="icon-btn"
+                testid="ascendingSort"
+              >
+                <FcGenericSortingAsc />
+              </button>
+              <button
+                type="button"
+                onClick={() => this.sortList('DESC')}
+                className="icon-btn"
+                testid="descendingSort"
+              >
+                <FcGenericSortingDesc />
+              </button>
+            </div>
+            <p className="width-margin">Confirmed</p>
+            <p className="width-margin">Active</p>
+            <p className="width-margin">Recovered</p>
+            <p className="width-margin">Deceased</p>
+            <p className="width-margin">Population</p>
+          </div>
 
-              <p className="width-margin">Confirmed</p>
-              <p className="width-margin">Active</p>
-              <p className="width-margin">Recovered</p>
-              <p className="width-margin">Deceased</p>
-              <p className="width-margin">Population</p>
-            </li>
-            {filteredData.map(e => (
-              <li key={e.stateCode} className="list-item">
-                <Link to={`/state/${e.stateCode}`} className="link-item">
-                  <p className="state">{e.stateName}</p>
-                </Link>
-                <p className="confirmed width-margin">{e.confirmed}</p>
-                <p className="active width-margin">{e.active}</p>
-                <p className="recovered width-margin">{e.recovered}</p>
-                <p className="deceased width-margin">{e.deceased}</p>
-                <p className="population width-margin">{e.population}</p>
-              </li>
-            ))}
-          </ul>
+          <div className="home-state-list">
+            <ul className="covid-list">
+              {covid19DataList.map(e => (
+                <li key={e.stateCode} className="list-item">
+                  <Link to={`/state/${e.stateCode}`} className="link">
+                    <p className="state">{e.stateName}</p>
+                  </Link>
+                  <p className="confirmed width-margin">{e.confirmed}</p>
+                  <p className="active width-margin">{e.active}</p>
+                  <p className="recovered width-margin">{e.recovered}</p>
+                  <p className="deceased width-margin">{e.deceased}</p>
+                  <p className="population width-margin">{e.population}</p>
+                </li>
+              ))}
+            </ul>
+          </div>
         </div>
       </>
     )
   }
 
   render() {
-    const {viewStatus} = this.state
+    const {viewStatus, showMenu} = this.state
 
     let renderView
 
@@ -404,13 +425,11 @@ class Home extends Component {
         return null
     }
     return (
-      <>
-        <Header />
-        <div className="home-background">
-          {renderView}
-          <Footer />
-        </div>
-      </>
+      <div className="home-background">
+        <Header showMenu={showMenu} showNavMenu={this.showNavMenu} />
+        {renderView}
+        <Footer />
+      </div>
     )
   }
 }

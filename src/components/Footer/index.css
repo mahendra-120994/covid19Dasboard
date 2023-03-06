@@ -2,6 +2,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  width: 100%;
 }
 .border-item {
   list-style: none;
@@ -26,19 +27,14 @@
 .footer-icon-container {
   display: flex;
   justify-content: space-between;
-}
-.footer-icon {
+  width: 250px;
   color: #f8fafc;
-  font-size: 50px;
-  margin: 10px;
+  font-size: 40px;
 }
+
 @media screen and (max-width: 767px) {
   .border-item,
   .border-india {
     font-size: 20px;
-  }
-  .footer-icon {
-    width: 40px;
-    height: 40px;
   }
 }

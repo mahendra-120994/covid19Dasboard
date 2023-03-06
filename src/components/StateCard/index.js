@@ -42,67 +42,77 @@ const StateCard = props => {
   }
 
   return (
-    <div className="state-card-bg">
-      <ul className="select-container">
-        <li
-          key={statusId.confirm}
-          onClick={() => onSelect(statusId.confirm, '#ff073a')}
-          id={statusId.confirm}
-          className="state-card-item confirmed"
+    <ul className="select-container">
+      <li
+        key={statusId.confirm}
+        onClick={() => onSelect(statusId.confirm, '#ff073a')}
+        id={statusId.confirm}
+        className="state-card-item confirmed"
+      >
+        <div
+          className={`category-card ${confirmColor} confirmed-clr`}
+          testid="stateSpecificConfirmedCasesContainer"
         >
-          <div className={`category-card ${confirmColor} confirmed-clr`}>
-            <p className="state-status">Confirmed</p>
-            <img
-              src="https://res.cloudinary.com/dgulnqxe6/image/upload/v1677424366/miniproject/Covid19%20Dashboard/check-mark_sowise.png"
-              alt="confirm"
-            />
-            <p className="state-count">{totalConfirmed}</p>
-          </div>
-        </li>
-        <li
-          key={statusId.active}
-          onClick={() => onSelect(statusId.active, '#007bff')}
-          className="state-card-item"
+          <p className="state-status">Confirmed</p>
+          <img
+            src="https://res.cloudinary.com/dgulnqxe6/image/upload/v1677424366/miniproject/Covid19%20Dashboard/check-mark_sowise.png"
+            alt="state specific confirmed cases pic"
+          />
+          <p className="state-count">{totalConfirmed}</p>
+        </div>
+      </li>
+      <li
+        key={statusId.active}
+        onClick={() => onSelect(statusId.active, '#007bff')}
+        className="state-card-item"
+      >
+        <div
+          className={`category-card ${activeColor} active-clr`}
+          testid="stateSpecificActiveCasesContainer"
         >
-          <div className={`category-card ${activeColor} active-clr`}>
-            <p className="state-status">Active</p>
-            <img
-              src="https://res.cloudinary.com/dgulnqxe6/image/upload/v1677424366/miniproject/Covid19%20Dashboard/protection_x7c08c.png"
-              alt="active"
-            />
-            <p className="state-count">{totalActive}</p>
-          </div>
-        </li>
-        <li
-          key={statusId.recovered}
-          onClick={() => onSelect(statusId.recovered, '#28a745')}
-          className="state-card-item"
+          <p className="state-status">Active</p>
+          <img
+            src="https://res.cloudinary.com/dgulnqxe6/image/upload/v1677424366/miniproject/Covid19%20Dashboard/protection_x7c08c.png"
+            alt="state specific active cases pic"
+          />
+          <p className="state-count">{totalActive}</p>
+        </div>
+      </li>
+      <li
+        key={statusId.recovered}
+        onClick={() => onSelect(statusId.recovered, '#28a745')}
+        className="state-card-item"
+      >
+        <div
+          className={`category-card ${recoveredColor} recovered-clr`}
+          testid="stateSpecificRecoveredCasesContainer"
         >
-          <div className={`category-card ${recoveredColor} recovered-clr`}>
-            <p className="state-status">Recovered</p>
-            <img
-              src="https://res.cloudinary.com/dgulnqxe6/image/upload/v1677424366/miniproject/Covid19%20Dashboard/recovered_a62w5v.png"
-              alt="recovered"
-            />
-            <p className="state-count">{totalRecovered}</p>
-          </div>
-        </li>
-        <li
-          key={statusId.deceased}
-          onClick={() => onSelect(statusId.deceased, '#6c757d')}
-          className="state-card-item"
+          <p className="state-status">Recovered</p>
+          <img
+            src="https://res.cloudinary.com/dgulnqxe6/image/upload/v1677424366/miniproject/Covid19%20Dashboard/recovered_a62w5v.png"
+            alt="state specific recovered cases pic"
+          />
+          <p className="state-count">{totalRecovered}</p>
+        </div>
+      </li>
+      <li
+        key={statusId.deceased}
+        onClick={() => onSelect(statusId.deceased, '#6c757d')}
+        className="state-card-item"
+      >
+        <div
+          className={`category-card ${deceasedColor} deceased-clr`}
+          testid="stateSpecificDeceasedCasesContainer"
         >
-          <div className={`category-card ${deceasedColor} deceased-clr`}>
-            <p className="state-status">Deceased</p>
-            <img
-              src="https://res.cloudinary.com/dgulnqxe6/image/upload/v1677424366/miniproject/Covid19%20Dashboard/breathing_enzyun.png"
-              alt="deceased"
-            />
-            <p className="state-count">{totalDeceased}</p>
-          </div>
-        </li>
-      </ul>
-    </div>
+          <p className="state-status">Deceased</p>
+          <img
+            src="https://res.cloudinary.com/dgulnqxe6/image/upload/v1677424366/miniproject/Covid19%20Dashboard/breathing_enzyun.png"
+            alt="state specific deceased cases pic"
+          />
+          <p className="state-count">{totalDeceased}</p>
+        </div>
+      </li>
+    </ul>
   )
 }
 export default StateCard

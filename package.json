@@ -11,7 +11,6 @@
     "@testing-library/react": "11.2.5",
     "@testing-library/user-event": "12.6.2",
     "@wojtekmaj/enzyme-adapter-react-17": "0.6.3",
-    "date-fns": "2.29.3",
     "enzyme": "3.11.0",
     "react": "17.0.1",
     "react-dom": "17.0.1",

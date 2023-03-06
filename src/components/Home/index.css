@@ -4,9 +4,9 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  padding: 20px;
 }
 .search-container {
+  color: #94a3b8;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -30,8 +30,6 @@
   background-color: #161625;
   padding: 5px;
   width: 900px;
-  position: sticky;
-  display: flex;
   flex-direction: column;
   align-items: center;
 }
@@ -42,6 +40,7 @@
   align-items: center;
   width: 100%;
   padding: 5px 10px;
+  border-bottom: solid 1px #64748b;
 }
 .search-list-item:hover {
   background-color: #1f1f38;
@@ -55,33 +54,37 @@
   font-size: 16px;
   background-color: rgba(28, 212, 212, 0.16);
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
-  width: 76px;
+  width: 64px;
   height: 32px;
+  padding: 2px 8px;
   border-radius: 4px;
-}
-.arrow-right {
-  margin-left: 5px;
 }
 .home-data-container {
   width: 100%;
-  overflow-x: auto;
   display: flex;
   justify-content: center;
 }
-.covid-list {
+.home-list-container {
+  width: 80%;
+  overflow-x: auto;
+  display: flex;
+  flex-direction: column;
   background-color: #1e1e30;
   border: solid 1px #475569;
   border-radius: 12px;
+}
+.covid-list {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  width: 800px;
   padding: 5px;
+  width: 100%;
 }
-.list-item {
+.list-item,
+.home-state-list {
   list-style: none;
   display: flex;
   justify-content: space-between;
@@ -92,14 +95,17 @@
 }
 .header-list {
   border-bottom: solid 1px #475569;
-  width: 100%;
   color: #ffffff;
   font-size: 16px;
 }
+.covid-list {
+  width: 100%;
+}
+
 .icon-btn {
   border: none;
   background-color: transparent;
-  margin-left: 10px;
+  margin-left: 5px;
   cursor: pointer;
 }
 .state {
@@ -144,6 +150,10 @@
 }
 .link-item {
   text-decoration: none;
+  width: 100%;
+}
+.link {
+  text-decoration: none;
 }
 .filter-box {
   display: flex;
@@ -176,12 +186,10 @@
     width: 100%;
     margin: 20px 10px;
   }
-  .home-data-container {
+  .home-list-container {
     justify-content: flex-start;
   }
-  .covid-list {
-    align-items: flex-start;
-  }
+
   .list-item {
     padding: 5px;
   }

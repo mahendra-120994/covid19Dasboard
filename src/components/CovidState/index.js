@@ -1,5 +1,5 @@
 import {Component} from 'react'
-import {format} from 'date-fns'
+// import {format} from 'date-fns'
 import Loader from 'react-loader-spinner'
 
 import Header from '../Header'
@@ -211,6 +211,7 @@ class CovidState extends Component {
         const Deceased = eachDistrictCase.deceased
           ? eachDistrictCase.deceased
           : 0
+        const Tested = eachDistrictCase.tested ? eachDistrictCase.tested : 0
 
         const Active = Confirmed - Recovered - Deceased
         return {
@@ -219,6 +220,7 @@ class CovidState extends Component {
           Deceased,
           Recovered,
           Active,
+          Tested,
         }
       })
 
@@ -230,9 +232,32 @@ class CovidState extends Component {
 
       let lastUpdatedDate = data[stateCode].meta.last_updated
 
-      const formatDate = format(new Date(lastUpdatedDate), 'MMMM do yyyy')
+      const d = new Date(lastUpdatedDate).getDate()
+      const y = new Date(lastUpdatedDate).getFullYear()
+      let m = new Date(lastUpdatedDate).getMonth()
 
-      lastUpdatedDate = formatDate.toLowerCase()
+      const monthNames = [
+        'january',
+        'february',
+        'march',
+        'april',
+        'may',
+        'june',
+        'july',
+        'august',
+        'september',
+        'october',
+        'november',
+        'december',
+      ]
+
+      m = monthNames[m]
+
+      lastUpdatedDate = [m, d, y].join(' ')
+
+      //   const formatDate = format(new Date(lastUpdatedDate), 'MMMM do yyyy')
+
+      //   lastUpdatedDate = formatDate.toLowerCase()
 
       let stateName
       statesList.forEach(e => {
@@ -257,7 +282,7 @@ class CovidState extends Component {
   }
 
   renderLoadingView = () => (
-    <div className="products-loader-container">
+    <div testid="stateDetailsLoader">
       <Loader type="TailSpin" color="#0b69ff" height="50" width="50" />
     </div>
   )
@@ -273,11 +298,13 @@ class CovidState extends Component {
       color,
     } = this.state
 
-    // console.log('color', color)
-
     const {match} = this.props
     const {id} = match.params
     const stateCode = id
+
+    districtDatalist.sort((a, b) => b[activeId] - a[activeId])
+
+    // console.log('color', color)
 
     return (
       <div className="state-container">
@@ -300,9 +327,9 @@ class CovidState extends Component {
         />
         <div className="district-container">
           <h1 className="top-dist-hdg" style={{color}}>
-            Top District
+            Top Districts
           </h1>
-          <ul className="district-list">
+          <ul className="district-list" testid="topDistrictsUnorderedList">
             {districtDatalist.map(e => {
               if (e[activeId] !== 0) {
                 return (
@@ -317,11 +344,10 @@ class CovidState extends Component {
           </ul>
         </div>
         <div className="graph-container">
-          {/* testid="lineChartsContainer" */}
           <BarGraph
-            stateCode={stateCode}
             activeId={activeId}
             activeColor={color}
+            stateCode={stateCode}
           />
         </div>
       </div>
@@ -349,6 +375,7 @@ class CovidState extends Component {
         <Header />
         <div className="state-bg">
           {renderView}
+
           <Footer />
         </div>
       </>
