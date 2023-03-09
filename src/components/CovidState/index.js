@@ -1,4 +1,5 @@
 import {Component} from 'react'
+import {Redirect} from 'react-router-dom'
 // import {format} from 'date-fns'
 import Loader from 'react-loader-spinner'
 
@@ -184,6 +185,9 @@ class CovidState extends Component {
     const {match} = this.props
     const {id} = match.params
     const stateCode = id
+
+    const isStateExist = statesList.some(e => e.state_code === id.toUpperCase())
+
     const url = 'https://apis.ccbp.in/covid19-state-wise-data'
 
     const options = {
@@ -192,7 +196,7 @@ class CovidState extends Component {
 
     const response = await fetch(url, options)
 
-    if (response.ok === true) {
+    if (response.ok === true && isStateExist) {
       const data = await response.json()
 
       const districtList = Object.keys(data[stateCode].districts)
@@ -274,6 +278,8 @@ class CovidState extends Component {
         totalTested,
         viewStatus: viewStatusConstant.success,
       })
+    } else {
+      this.setState({viewStatus: viewStatusConstant.failure})
     }
   }
 
@@ -286,6 +292,8 @@ class CovidState extends Component {
       <Loader type="TailSpin" color="#0b69ff" height="50" width="50" />
     </div>
   )
+
+  renderFailureView = () => <Redirect to="/not-found" />
 
   renderSuccessView = () => {
     const {
@@ -330,17 +338,12 @@ class CovidState extends Component {
             Top Districts
           </h1>
           <ul className="district-list" testid="topDistrictsUnorderedList">
-            {districtDatalist.map(e => {
-              if (e[activeId] !== 0) {
-                return (
-                  <li key={e.districtName} className="district-list-item">
-                    <p className="district-case">{e[activeId]}</p>
-                    <p className="district-name">{e.districtName}</p>
-                  </li>
-                )
-              }
-              return null
-            })}
+            {districtDatalist.map(e => (
+              <li key={e.districtName} className="district-list-item">
+                <p className="district-case">{e[activeId]}</p>
+                <p className="district-name">{e.districtName}</p>
+              </li>
+            ))}
           </ul>
         </div>
         <div className="graph-container">
@@ -366,6 +369,9 @@ class CovidState extends Component {
       case viewStatusConstant.loading:
         renderView = this.renderLoadingView()
         break
+      case viewStatusConstant.failure:
+        renderView = this.renderFailureView()
+        break
       default:
         return null
     }
@@ -375,7 +381,6 @@ class CovidState extends Component {
         <Header />
         <div className="state-bg">
           {renderView}
-
           <Footer />
         </div>
       </>

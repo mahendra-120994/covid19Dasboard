@@ -24,8 +24,9 @@
   color: #ffffff;
   background-color: #2563eb;
   border: none;
-  padding: 5px;
-  border-radius: 12px;
+  padding: 5px 10px;
+  border-radius: 5px;
+  cursor: pointer;
 }
 @media screen and (max-width: 767px) {
   .not-found-img {
