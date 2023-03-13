@@ -311,9 +311,6 @@ class CovidState extends Component {
     const stateCode = id
 
     districtDatalist.sort((a, b) => b[activeId] - a[activeId])
-
-    // console.log('color', color)
-
     return (
       <div className="state-container">
         <div className="state-header">
